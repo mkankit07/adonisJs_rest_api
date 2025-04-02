@@ -10,8 +10,8 @@ export type RegisterUser = {
 }
 
 export type UpdateUser = {
-  gender?: string
-  dob?: string
-  fullName?: string
-  profileImage?: string
+  gender?: 'Male' | 'Female' | undefined
+  dob?: string | undefined
+  fullName?: string | undefined
+  profileImage?: string | undefined
 }

@@ -4,23 +4,29 @@ import { apiResponse } from '../common/api_response.js'
 import { viewUserList } from '#abilities/main'
 import { Bouncer } from '@adonisjs/bouncer'
 import User from '#models/user'
+import { userLoginValidator, userRegisterValidator, userUpdateValidator } from '#validators/user'
 
 export default class UserController {
   private userService = new UserService()
+
   public async register({ request }: HttpContext) {
-    const { mobileNumber, role } = request.only(['mobileNumber', 'role'])
-    return this.userService.register(mobileNumber, role)
+    const data = request.all()
+    const payload = await userRegisterValidator.validate(data)
+    return this.userService.register(payload.mobileNumber, payload.role)
   }
 
   public async login({ request }: HttpContext) {
-    const { mobileNumber, otp } = request.only(['mobileNumber', 'otp'])
-    return this.userService.login({ mobileNumber, otp })
+    const data = request.all()
+    const payload = await userLoginValidator.validate(data)
+    return this.userService.login(payload)
   }
 
   public async updateUser({ bouncer, request }: HttpContext) {
-    const bodyRequest = request.body()
+    const data = request.all()
+    const payload = await userUpdateValidator.validate(data)
+
     const { id } = request.params()
-    return this.userService.updateUserDetails(bouncer as unknown as Bouncer<User>, id, bodyRequest)
+    return this.userService.updateUserDetails(bouncer as unknown as Bouncer<User>, id, payload)
   }
 
   public async fetchUserList({ bouncer }: HttpContext) {
