@@ -1,9 +1,11 @@
+import { editUser } from '#abilities/main'
 import User from '#models/user'
+import { Bouncer } from '@adonisjs/bouncer'
 import { apiResponse } from '../common/api_response.js'
 import { UpdateUser } from '../constants/types.js'
 
 export default class UserService {
-  public async register(mobileNumber: string) {
+  public async register(mobileNumber: string, role = 'USER') {
     const user = new User()
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
 
@@ -14,6 +16,7 @@ export default class UserService {
     } else {
       user.mobileNumber = mobileNumber
       user.otp = otp
+      user.role = role
       await user.save()
     }
     return apiResponse.okSuccess('Please login with OTP', { otp })
@@ -31,12 +34,15 @@ export default class UserService {
     return apiResponse.okSuccess('Login success', { id: user.id, token })
   }
 
-  public async updateUserDetails(id: string, data: UpdateUser) {
+  public async updateUserDetails(bounce: Bouncer<User>, id: string, data: UpdateUser) {
     const user = await User.findBy('id', id)
     if (!user) {
       if (!user) {
         return apiResponse.notFoundError('User account not found')
       }
+    }
+    if (await bounce.denies(editUser, user)) {
+      return apiResponse.unAuthorized('Access denied')
     }
     await user.merge(data).save()
     return apiResponse.okSuccess('User details updated')
