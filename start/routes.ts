@@ -7,7 +7,7 @@
 |
 */
 
-import UserController from '#controllers/user-controller'
+import UserController from '#controllers/user_controller'
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 

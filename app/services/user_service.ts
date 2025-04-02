@@ -1,6 +1,6 @@
 import User from '#models/user'
-import { apiResponse } from '../common/api-response.js'
-import { updateUser } from '../constants/types.js'
+import { apiResponse } from '../common/api_response.js'
+import { UpdateUser } from '../constants/types.js'
 
 export default class UserService {
   public async register(mobileNumber: string) {
@@ -31,7 +31,7 @@ export default class UserService {
     return apiResponse.okSuccess('Login success', { id: user.id, token })
   }
 
-  public async updateUserDetails(id: string, data: updateUser) {
+  public async updateUserDetails(id: string, data: UpdateUser) {
     const user = await User.findBy('id', id)
     if (!user) {
       if (!user) {
