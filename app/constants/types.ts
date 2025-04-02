@@ -1,15 +1,15 @@
-export interface IResponseBody {
+export interface IresponseBody {
   code: number
   message: string
   data?: object
   metadata?: object
 }
 
-export type registerUser = {
+export type RegisterUser = {
   phone_number: string
 }
 
-export type updateUser = {
+export type UpdateUser = {
   gender?: string
   dob?: string
   fullName?: string

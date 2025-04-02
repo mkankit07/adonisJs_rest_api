@@ -1,6 +1,6 @@
-import UserService from '#services/user-service'
+import UserService from '#services/user_service'
 import { HttpContext } from '@adonisjs/core/http'
-import { apiResponse } from '../common/api-response.js'
+import { apiResponse } from '../common/api_response.js'
 
 export default class UserController {
   private userService = new UserService()
