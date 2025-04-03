@@ -1,22 +1,22 @@
-import { IResponseBody } from "../constants/types.js"
+import { IresponseBody } from '../constants/types.js'
 
 /**
  * @class Response
  * @description this is used generate the response
  */
 class Response {
-  private responseValue: IResponseBody = <IResponseBody>{}
-  constructor(responseInfo: IResponseBody) {
+  private responseValue: IresponseBody = <IresponseBody>{}
+  constructor(responseInfo: IresponseBody) {
     this.responseValue = { ...responseInfo }
   }
 
-  get response(): IResponseBody {
+  get response(): IresponseBody {
     return this.responseValue
   }
 }
 
 class ResponseApi {
-  private newResponse: IResponseBody = <IResponseBody>{}
+  private newResponse: IresponseBody = <IresponseBody>{}
 
   private statusCode(code: number): ResponseApi {
     this.newResponse.code = code
@@ -38,32 +38,31 @@ class ResponseApi {
     return this
   }
 
-  public notFoundError(msg = 'Not found!', data = {}, metadata: object = {}): IResponseBody {
+  public notFoundError(msg = 'Not found!', data = {}, metadata: object = {}): IresponseBody {
     this.statusCode(404).message(msg).metaData(metadata).data(data)
     return this.build()
   }
 
-  public badRequest(msg = 'Invalid Request!', data = {}, metadata: object = {}): IResponseBody {
+  public badRequest(msg = 'Invalid Request!', data = {}, metadata: object = {}): IresponseBody {
     this.statusCode(400).message(msg).metaData(metadata).data(data)
     return this.build()
   }
 
-
-  public okSuccess(msg = 'Ok', data: object = {}, metadata: object = {}): IResponseBody {
+  public okSuccess(msg = 'Ok', data: object = {}, metadata: object = {}): IresponseBody {
     return this.statusCode(200).message(msg).data(data).metaData(metadata).build()
   }
 
-  public createdSuccess(msg = 'Resource created!', data = {}, metadata = {}): IResponseBody {
+  public createdSuccess(msg = 'Resource created!', data = {}, metadata = {}): IresponseBody {
     return this.statusCode(201).message(msg).metaData(metadata).data(data).build()
   }
 
-  public unAuthorized(msg = 'Unauthorized', data = {}, metadata = {}): IResponseBody {
+  public unAuthorized(msg = 'Unauthorized', data = {}, metadata = {}): IresponseBody {
     return this.statusCode(401).message(msg).metaData(metadata).data(data).build()
   }
 
-  private build(): IResponseBody {
+  private build(): IresponseBody {
     const response = new Response(this.newResponse).response
-    this.newResponse = <IResponseBody>{}
+    this.newResponse = <IresponseBody>{}
     return response
   }
 }
